@@ -9,6 +9,19 @@ func Map[T1, T2 any](f func(T1) T2, a []T1) []T2 {
 	return b
 }
 
+// Equal returns true if a and b have the same length and contain the same elements in the same order.
+func Equal[T comparable](a, b []T) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if b[i] != v {
+			return false
+		}
+	}
+	return true
+}
+
 // MutMap applies f to each element of a mutating a
 func MutMap[T any](f func(*T), a []T) {
 	for i := range a {
