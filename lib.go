@@ -107,3 +107,12 @@ func ForEach[T any](f func(T), a []T) {
 		f(v)
 	}
 }
+
+// Flatten flattens a list of lists of A to a list of A
+func Flatten[T any](a [][]T) []T {
+	var out []T
+	for _, i := range a {
+		out = append(out, i...)
+	}
+	return out
+}
