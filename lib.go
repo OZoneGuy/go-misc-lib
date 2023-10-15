@@ -23,9 +23,9 @@ func Equal[T comparable](a, b []T) bool {
 }
 
 // MutMap applies f to each element of a mutating a
-func MutMap[T any](f func(*T), a []T) {
+func MutMap[T any](f func(T) T, a []T) {
 	for i := range a {
-		f(&a[i])
+		a[i] = f(a[i])
 	}
 }
 
@@ -115,4 +115,28 @@ func Flatten[T any](a [][]T) []T {
 		out = append(out, i...)
 	}
 	return out
+}
+
+// ApplyN applies f to x N times, returning the result.
+func ApplyN[T any](f func(T) T, x T, n int) T {
+	for i := 0; i < n; i++ {
+		x = f(x)
+	}
+	return x
+}
+
+// FoldL folds a from the left with f, returning the result.
+func FoldL[T1, T2 any](f func(T1, T2) T1, a []T2, init T1) T1 {
+	for _, v := range a {
+		init = f(init, v)
+	}
+	return init
+}
+
+// FoldR folds a from the right with f, returning the result.
+func FoldR[T1, T2 any](f func(T2, T1) T1, a []T2, init T1) T1 {
+	for i := len(a) - 1; i >= 0; i-- {
+		init = f(a[i], init)
+	}
+	return init
 }

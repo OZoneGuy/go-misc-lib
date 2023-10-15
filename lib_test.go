@@ -22,7 +22,7 @@ func MutMapTest(t *testing.T) {
 	outputs := [][]int{{2, 4, 6}, {8, 10, 12}}
 
 	for i, input := range inputs {
-		gomisclib.MutMap(func(x *int) { *x *= 2 }, input)
+		gomisclib.MutMap(func(x int) int { return x * 2 }, input)
 		assert.Equal(t, outputs[i], input, "MutMap(%v) = %v, want %v", input, input, outputs[i])
 	}
 }
@@ -71,4 +71,31 @@ func FlattenTest(t *testing.T) {
 	input := [][]int{{1, 2, 3}, {4, 5, 6}}
 	expected := []int{1, 2, 3, 4, 5, 6}
 	assert.Equal(t, expected, gomisclib.Flatten(input), "Should flatten the list of lists")
+}
+
+func ApplyNTest(t *testing.T) {
+	input := []int{1, 2, 3}
+	expected := []int{3, 4, 5}
+	f := func(x int) int { return x + 1 }
+	for i, n := range input {
+		assert.Equal(t, expected[i], gomisclib.ApplyN(f, n, 2), "Should apply f n times")
+	}
+}
+
+func FoldLTest(t *testing.T) {
+	inputs := [][]int{{1, 2, 3}, {4, 5, 6}}
+	outputs := []int{6, 15}
+	f := func(x, y int) int { return x + y }
+	for i, ns := range inputs {
+		assert.Equal(t, outputs[i], gomisclib.FoldL(f, ns, 0), "Should fold left")
+	}
+}
+
+func FoldRTest(t *testing.T) {
+	inputs := [][]rune{{'a', 'b', 'c'}, {'d', 'e', 'f'}}
+	outputs := []string{"cba", "fed"}
+	f := func(x rune, y string) string { return string(x) + y }
+	for i, cs := range inputs {
+		assert.Equal(t, outputs[i], gomisclib.FoldR(f, cs, ""), "Should fold right")
+	}
 }
