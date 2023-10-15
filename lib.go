@@ -82,6 +82,7 @@ func Count[T any](f func(T) bool, a []T) int {
 }
 
 // Find returns the first element of a for which f returns true, or nil if there is no such element.
+// WARN: Untested
 func Find[T any](f func(T) bool, a []T) *T {
 	for _, v := range a {
 		if f(v) {
@@ -92,6 +93,7 @@ func Find[T any](f func(T) bool, a []T) *T {
 }
 
 // FindIndex returns the index of the first element of a for which f returns true, or -1 if there is no such element.
+// WARN:Untested
 func FindIndex[T any](f func(T) bool, a []T) int {
 	for i, v := range a {
 		if f(v) {
@@ -102,6 +104,7 @@ func FindIndex[T any](f func(T) bool, a []T) int {
 }
 
 // ForEeach calls f on each element of a.
+// WARN: Untested
 func ForEach[T any](f func(T), a []T) {
 	for _, v := range a {
 		f(v)
